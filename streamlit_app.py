@@ -3,8 +3,8 @@ import pandas as pd
 import joblib
 
 # Load the preprocessor and classifier
-preprocessor = joblib.load('C:\\Users\\Moran\\anaconda3\\envs\\myenv\\General Assembly\\Capstone\\preprocessor.joblib')
-classifier = joblib.load('C:\\Users\\Moran\\anaconda3\\envs\\myenv\\General Assembly\\Capstone\\classifier.joblib')
+preprocessor = joblib.load('preprocessor.joblib')
+classifier = joblib.load('classifier.joblib')
 
 #print('Model loaded Successfully')
 
