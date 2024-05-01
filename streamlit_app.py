@@ -34,16 +34,6 @@ pre_saved_data_2 = {
     'gameplay_type': 'Healing'
 }
 
-# Function to reset session state
-def reset_user_input():
-    for key in pre_saved_data_1.keys():
-        st.session_state[key] = 0
-    st.session_state['level'] = 1
-    st.session_state['duration_min'] = 1
-    st.session_state['gametime'] = 'Morning'
-    st.session_state['gameplay_type'] = 'Healing'
-    st.session_state['data_loaded'] = False
-
 # Buttons to load pre-saved data
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -56,7 +46,13 @@ with col2:
         st.session_state['data_loaded'] = True
 with col3:
     if st.button('Reset Inputs'):
-        reset_user_input()
+        for key in pre_saved_data_1:
+            st.session_state[key] = 0
+        st.session_state['level'] = 1
+        st.session_state['duration_min'] = 1
+        st.session_state['gametime'] = 'Morning'
+        st.session_state['gameplay_type'] = 'Healing'
+        st.session_state['data_loaded'] = False
 
 def user_input_features():
     data = {
@@ -83,6 +79,8 @@ st.write(input_df)
 if st.button('Predict'):
     processed_features = preprocessor.transform(input_df)
     prediction = classifier.predict(processed_features)
-    result = 'Win' if prediction[0] else 'Lose'
-    st.subheader('Prediction')
-    st.write(result)
+    if prediction[0]:
+        result_html = f'<div style="color:green; font-size:24px;">Win</div>'
+    else:
+        result_html = f'<div style="color:red; font-size:24px;">Lose</div>'
+    st.markdown(result_html, unsafe_allow_html=True)
