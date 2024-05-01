@@ -11,37 +11,37 @@ st.image('https://i.ytimg.com/vi/4KSNTN7IcR4/sddefault.jpg', caption='ACCEPT???'
 
 # Define two sets of pre-saved data
 pre_saved_data_1 = {
-    'kills': 10,
-    'deaths': 2,
-    'assists': 8,
-    'gold_per_min': 500,
-    'xp_per_min': 600,
-    'level': 20,
-    'duration_min': 45,
-    'gametime': 'Evening',
-    'gameplay_type': 'Burst'
+    'kills': 4,
+    'deaths': 7,
+    'assists': 12,
+    'gold_per_min': 240,
+    'xp_per_min': 301,
+    'level': 12,
+    'duration_min': 30,
+    'gametime': 'Afternoon',
+    'gameplay_type': 'Gank'
 }
 
 pre_saved_data_2 = {
-    'kills': 5,
-    'deaths': 5,
-    'assists': 15,
-    'gold_per_min': 300,
-    'xp_per_min': 400,
-    'level': 15,
-    'duration_min': 30,
-    'gametime': 'Morning',
+    'kills': 2,
+    'deaths': 1,
+    'assists': 12,
+    'gold_per_min': 271,
+    'xp_per_min': 487,
+    'level': 19,
+    'duration_min': 43,
+    'gametime': 'Evening',
     'gameplay_type': 'Healing'
 }
 
 # Buttons to load pre-saved data
 col1, col2 = st.columns(2)
 with col1:
-    if st.button('Use Pre-saved Data 1'):
+    if st.button('Use Demo Data 1'):
         st.session_state['data'] = pre_saved_data_1
         st.session_state['data_loaded'] = True
 with col2:
-    if st.button('Use Pre-saved Data 2'):
+    if st.button('Use Demo Data 2'):
         st.session_state['data'] = pre_saved_data_2
         st.session_state['data_loaded'] = True
 
