@@ -77,3 +77,49 @@ Sub HighlightSheetReferences()
 ErrorHandler:
     MsgBox "An error occurred: " & Err.Description
 End Sub
+
+Sub HighlightSheetReferences()
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim searchSheets As Variant
+    Dim i As Integer
+    Dim found As Boolean
+    
+    ' List of sheets to search for references
+    searchSheets = Array("Sheet1!", "Sheet2!", "Sheet3!")
+    
+    On Error Resume Next
+    
+    For Each ws In ThisWorkbook.Worksheets
+        ' Check if the sheet has any used range
+        If Not ws.UsedRange Is Nothing Then
+            For Each cell In ws.UsedRange
+                ' Clear previous cell errors
+                Err.Clear
+                Dim cellFormula As String
+                cellFormula = ""
+                
+                ' Attempt to get the cell formula
+                cellFormula = cell.Formula
+                If Err.Number = 0 Then
+                    ' Check for references to any sheets in searchSheets
+                    For i = LBound(searchSheets) To UBound(searchSheets)
+                        If InStr(1, cellFormula, searchSheets(i), vbTextCompare) > 0 Then
+                            found = True
+                            cell.Interior.Color = RGB(255, 0, 0) ' Highlight in red
+                            Exit For ' Exit the loop once a match is found
+                        End If
+                    Next i
+                End If
+            Next cell
+        End If
+    Next ws
+    
+    If found Then
+        MsgBox "Cells referencing the specified sheets have been highlighted in red."
+    Else
+        MsgBox "No references to the specified sheets found."
+    End If
+    
+    On Error GoTo 0 ' Reset error handling
+End Sub
