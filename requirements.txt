@@ -6,120 +6,26 @@ protobuf==3.20.3
 scikit_learn==1.2.2
 streamlit==1.29.0
 
-Sub HighlightSheetReferences()
+Sub FormatRows()
     Dim ws As Worksheet
-    Dim cell As Range
-    Dim searchSheets As Variant
-    Dim i As Integer
-    Dim found As Boolean
+    Dim lastCol As Long
+    Dim i As Long
+    Dim upperRow As String
+    Dim lowerRow As String
     
-    ' List of sheets to search for references
-    searchSheets = Array("Sheet1!", "Sheet2!", "Sheet3!")
+    ' Set the worksheet to the active sheet
+    Set ws = ActiveSheet
     
-    For Each ws In ThisWorkbook.Worksheets
-        For Each cell In ws.UsedRange
-            If Not IsError(cell.Formula) Then
-                For i = LBound(searchSheets) To UBound(searchSheets)
-                    If InStr(1, cell.Formula, searchSheets(i), vbTextCompare) > 0 Then
-                        found = True
-                        cell.Interior.Color = RGB(255, 0, 0) ' Highlight in red
-                        Exit For ' Exit the loop once a match is found
-                    End If
-                Next i
-            End If
-        Next cell
-    Next ws
+    ' Find the last column with data in the first row
+    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
     
-    If found Then
-        MsgBox "Cells referencing the specified sheets have been highlighted in red."
-    Else
-        MsgBox "No references to the specified sheets found."
-    End If
-End Sub
-
-Sub HighlightSheetReferences()
-    Dim ws As Worksheet
-    Dim cell As Range
-    Dim searchSheets As Variant
-    Dim i As Integer
-    Dim found As Boolean
-    
-    ' List of sheets to search for references
-    searchSheets = Array("Sheet1!", "Sheet2!", "Sheet3!")
-    
-    On Error GoTo ErrorHandler
-    
-    For Each ws In ThisWorkbook.Worksheets
-        ' Check if the sheet has any used range
-        If Not ws.UsedRange Is Nothing Then
-            For Each cell In ws.UsedRange
-                If Not IsError(cell.Formula) Then
-                    For i = LBound(searchSheets) To UBound(searchSheets)
-                        If InStr(1, cell.Formula, searchSheets(i), vbTextCompare) > 0 Then
-                            found = True
-                            cell.Interior.Color = RGB(255, 0, 0) ' Highlight in red
-                            Exit For ' Exit the loop once a match is found
-                        End If
-                    Next i
-                End If
-            Next cell
-        End If
-    Next ws
-    
-    If found Then
-        MsgBox "Cells referencing the specified sheets have been highlighted in red."
-    Else
-        MsgBox "No references to the specified sheets found."
-    End If
-    
-    Exit Sub
-    
-ErrorHandler:
-    MsgBox "An error occurred: " & Err.Description
-End Sub
-
-Sub HighlightSheetReferences()
-    Dim ws As Worksheet
-    Dim cell As Range
-    Dim searchSheets As Variant
-    Dim i As Integer
-    Dim found As Boolean
-    
-    ' List of sheets to search for references
-    searchSheets = Array("Sheet1!", "Sheet2!", "Sheet3!")
-    
-    On Error Resume Next
-    
-    For Each ws In ThisWorkbook.Worksheets
-        ' Check if the sheet has any used range
-        If Not ws.UsedRange Is Nothing Then
-            For Each cell In ws.UsedRange
-                ' Clear previous cell errors
-                Err.Clear
-                Dim cellFormula As String
-                cellFormula = ""
-                
-                ' Attempt to get the cell formula
-                cellFormula = cell.Formula
-                If Err.Number = 0 Then
-                    ' Check for references to any sheets in searchSheets
-                    For i = LBound(searchSheets) To UBound(searchSheets)
-                        If InStr(1, cellFormula, searchSheets(i), vbTextCompare) > 0 Then
-                            found = True
-                            cell.Interior.Color = RGB(255, 0, 0) ' Highlight in red
-                            Exit For ' Exit the loop once a match is found
-                        End If
-                    Next i
-                End If
-            Next cell
-        End If
-    Next ws
-    
-    If found Then
-        MsgBox "Cells referencing the specified sheets have been highlighted in red."
-    Else
-        MsgBox "No references to the specified sheets found."
-    End If
-    
-    On Error GoTo 0 ' Reset error handling
+    ' Loop through each cell in the rows
+    For i = 1 To lastCol
+        ' Get the values from the first and second rows
+        upperRow = ws.Cells(1, i).Value
+        lowerRow = ws.Cells(2, i).Value
+        
+        ' Combine them in the desired format and write to the third row
+        ws.Cells(3, i).Value = "'" & upperRow & "' as '" & lowerRow & "'"
+    Next i
 End Sub
