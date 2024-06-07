@@ -1,3 +1,6 @@
+=SUM(IF(FREQUENCY(IF(LEFT(B2:B100, 3) = "PRM", MATCH(B2:B100, B2:B100, 0)), IF(LEFT(B2:B100, 3) = "PRM", MATCH(B2:B100, B2:B100, 0)))>0, 1))
+
+
 joblib==1.4.0
 numpy==1.25.2
 scipy==1.11.4
