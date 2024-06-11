@@ -32,3 +32,5 @@ Sub FormatRows()
         ws.Cells(3, i).Value = "'" & upperRow & "' as '" & lowerRow & "'"
     Next i
 End Sub
+
+COALESCE((CASE WHEN Final Overlier/Underlier Price (USD) = 0 THEN '' ELSE Final Overlier/Underlier Price (USD) END), Decomposed Overlier/Underlier Price (USD)) AS Final Overlier/Underlier Price (USD)
