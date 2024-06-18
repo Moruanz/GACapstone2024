@@ -34,3 +34,6 @@ Sub FormatRows()
 End Sub
 
 COALESCE((CASE WHEN Final Overlier/Underlier Price (USD) = 0 THEN '' ELSE Final Overlier/Underlier Price (USD) END), Decomposed Overlier/Underlier Price (USD)) AS Final Overlier/Underlier Price (USD)
+
+WHERE col1 <> '0'
+AND col1 RLIKE '^[0-9]*\\.?[0-9]+$';
