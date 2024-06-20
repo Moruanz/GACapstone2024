@@ -39,3 +39,20 @@ WHERE col1 <> '0'
 AND col1 RLIKE '^[0-9]*\\.?[0-9]+$';
 
 Documenting a program is crucial as it ensures that the code is understandable, maintainable, and usable by others. Clear documentation helps in preserving the developer's intent, making it easier for future developers to debug, extend, and optimize the code. It also facilitates collaboration, knowledge transfer, and onboarding of new team members, ultimately leading to more efficient and effective project development and management.
+
+
+Sub ListSheetNames()
+    Dim ws As Worksheet
+    Dim i As Integer
+    i = 1
+
+    ' Create a new sheet to list the sheet names
+    Sheets.Add(After:=Sheets(Sheets.Count)).Name = "SheetNames"
+
+    ' Loop through each sheet in the workbook
+    For Each ws In ThisWorkbook.Sheets
+        ' Write the sheet name to the new sheet
+        Sheets("SheetNames").Cells(i, 1).Value = ws.Name
+        i = i + 1
+    Next ws
+End Sub
