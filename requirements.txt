@@ -71,3 +71,20 @@ SELECT
     END AS filter
 
 
+CASE
+    WHEN `Price` rlike '^-?[0-9]+(\\.[0-9]+)?$' AND cast(`Price` as double) <> 0 THEN "No"
+    ELSE "Yes"
+END AS `Missing price`
+
+SELECT
+    ETI1,
+    ETI2,
+    CASE
+        WHEN ETI1 = ETI2 THEN 'Yes'
+        WHEN ETI2 = CONCAT(ETI1, 'A') THEN 'Yes'
+        WHEN ETI1 = CONCAT(ETI2, 'A') THEN 'Yes'
+        ELSE 'No'
+    END AS `Same ETI?`
+
+
+
