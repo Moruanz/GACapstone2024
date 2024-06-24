@@ -56,3 +56,14 @@ Sub ListSheetNames()
         i = i + 1
     Next ws
 End Sub
+
+
+SELECT
+    ETI,
+    GSN
+FROM your_table
+WHERE 
+    (GSN != 'N/A') 
+    OR 
+    (GSN = 'N/A' AND ROW_NUMBER() OVER (PARTITION BY ETI ORDER BY ETI) = 1 AND 
+     MAX(CASE WHEN GSN != 'N/A' THEN 1 ELSE 0 END) OVER (PARTITION BY ETI) = 0)
