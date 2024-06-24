@@ -72,13 +72,15 @@ WHERE
 SELECT 
     ETI, 
     GSN
-FROM 
-    (SELECT 
+FROM (
+    SELECT 
         ETI, 
         GSN,
         ROW_NUMBER() OVER (PARTITION BY ETI ORDER BY ETI) AS row_num,
         COUNT(CASE WHEN GSN != 'N/A' THEN 1 END) OVER (PARTITION BY ETI) AS non_na_count
-     FROM your_table) t
+    FROM 
+        your_table
+)
 WHERE 
     (non_na_count = 0 AND row_num = 1)
     OR (non_na_count > 0 AND GSN != 'N/A')
