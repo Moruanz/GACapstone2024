@@ -88,3 +88,14 @@ SELECT
 
 
 
+SELECT
+    CASE
+        WHEN C2 = '' THEN ''
+        WHEN RIGHT(C2, 1) = 'A' THEN 
+            CASE
+                WHEN LENGTH(C2) - 1 >= 0 THEN SUBSTRING(C2, 1, LENGTH(C2) - 1)
+                ELSE ''
+            END
+        ELSE C2
+    END AS result
+FROM your_table
