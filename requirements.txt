@@ -99,3 +99,5 @@ SELECT
         ELSE C2
     END AS result
 FROM your_table
+
+=IF(SUMPRODUCT(--(LEFT(A1:A100, FIND(".", A1:A100 & ".") - 1) = B1)) > 0, "Exists", "Does Not Exist")
