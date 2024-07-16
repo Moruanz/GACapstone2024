@@ -101,3 +101,24 @@ SELECT
 FROM your_table
 
 =IF(SUMPRODUCT(--(LEFT(A1:A100, FIND(".", A1:A100 & ".") - 1) = B1)) > 0, "Exists", "Does Not Exist")
+
+
+:: Run the first two batch files
+call command1.bat
+call command2.bat
+
+:: Open the Excel file
+set "excelFile=path\to\your\file.xlsx"
+start "" "%excelFile%"
+
+:: Wait for the Excel file to be closed
+:waitForExcel
+tasklist /fi "imagename eq excel.exe" | find /i "excel.exe" >nul
+if not errorlevel 1 (
+    echo Waiting for Excel to close...
+    timeout /t 5 >nul
+    goto waitForExcel
+)
+
+:: Continue with the third batch file
+call command3.bat
