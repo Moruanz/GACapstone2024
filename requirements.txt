@@ -122,3 +122,28 @@ if not errorlevel 1 (
 
 :: Continue with the third batch file
 call command3.bat
+
+
+
+@echo off
+setlocal enabledelayedexpansion
+
+REM Set the date to append
+set "date=20240724"
+
+REM Set the folder containing the files
+set "folder=C:\path\to\your\folder"
+
+REM Change to the specified folder
+cd /d "%folder%"
+
+REM Loop through each .xlsx file in the folder
+for %%f in (*.xlsx) do (
+    REM Get the file name without the extension
+    set "filename=%%~nf"
+    REM Rename the file by appending the date
+    ren "%%f" "!filename!_%date%.xlsx"
+)
+
+echo Files renamed successfully.
+pause
