@@ -147,3 +147,54 @@ for %%f in (*.xlsx) do (
 
 echo Files renamed successfully.
 pause
+
+import pytesseract
+from PIL import Image
+import tkinter as tk
+from tkinter import filedialog, Text
+
+# Specify the path to the Tesseract executable if it is not in the system PATH
+pytesseract.pytesseract.tesseract_cmd = r'path_to_your_tesseract_executable'
+
+def upload_image():
+    # Open a file dialog to select an image file
+    file_path = filedialog.askopenfilename(
+        filetypes=[("Image files", "*.jpg;*.jpeg;*.png;*.bmp;*.tiff")]
+    )
+    if file_path:
+        # Open the image file
+        image = Image.open(file_path)
+        
+        # Perform OCR on the image
+        text = pytesseract.image_to_string(image)
+        
+        # Display the image and extracted text
+        tk_image = ImageTk.PhotoImage(image)
+        image_label.config(image=tk_image)
+        image_label.image = tk_image
+        
+        text_box.delete(1.0, tk.END)
+        text_box.insert(tk.END, text)
+
+# Create the main window
+root = tk.Tk()
+root.title("Image to Text Converter")
+
+# Create a frame for the upload button and text box
+frame = tk.Frame(root)
+frame.pack(pady=20)
+
+# Create an upload button
+upload_button = tk.Button(frame, text="Upload Image", command=upload_image)
+upload_button.pack(side=tk.LEFT, padx=10)
+
+# Create a text box to display the extracted text
+text_box = Text(frame, wrap=tk.WORD, width=50, height=15)
+text_box.pack(side=tk.LEFT, padx=10)
+
+# Create a label to display the uploaded image
+image_label = tk.Label(root)
+image_label.pack(pady=10)
+
+# Run the application
+root.mainloop()
