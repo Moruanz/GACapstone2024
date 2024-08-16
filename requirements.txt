@@ -201,5 +201,8 @@ root.mainloop()
 
 ${dateOffset("${runDate?string['yyyy']}-${runDate?string['MM']}-01","-1d")?string["yyyy-MM-dd"]}
 
+${dateOffset(runDate?date("yyyy-MM-01"), "-1d")?string("yyyy-MM-dd")}
+
+
 
 
