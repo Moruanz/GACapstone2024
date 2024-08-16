@@ -199,5 +199,5 @@ image_label.pack(pady=10)
 # Run the application
 root.mainloop()
 
+${((runDate?string["yyyy-MM-01"])?date - 1)?string("yyyy-MM-dd")}
 
-${(runDate?date("yyyy-MM-01") - 1)?string("yyyy-MM-dd")}
