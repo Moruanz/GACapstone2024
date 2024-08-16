@@ -199,5 +199,6 @@ image_label.pack(pady=10)
 # Run the application
 root.mainloop()
 
-${((runDate?string["yyyy-MM-01"])?date - 1)?string("yyyy-MM-dd")}
+${dateOffset("${runDate?string['yyyy']}-${runDate?string['MM']}-01","-1d")?string["yyyy-MM-dd"]}
+
 
