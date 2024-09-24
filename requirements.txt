@@ -204,5 +204,22 @@ ${dateOffset("${runDate?string['yyyy']}-${runDate?string['MM']}-01","-1d")?strin
 ${dateOffset(runDate?date("yyyy-MM-01"), "-1d")?string("yyyy-MM-dd")}
 
 
+20240924 CARS
+# Define a function to cast based on type
+def cast_and_fill(df, float_cols, str_cols):
+    # Cast and fill float columns
+    df[float_cols] = df[float_cols].astype(float).fillna(0)
+    
+    # Cast and fill string columns
+    df[str_cols] = df[str_cols].astype(str).fillna('')
+    
+    return df
+
+# Example: casting col1, col2 to float and col3 to string
+df = cast_and_fill(df, float_cols=['col1', 'col2'], str_cols=['col3'])
+
+# Display updated DataFrame
+print(df)
+
 
 
