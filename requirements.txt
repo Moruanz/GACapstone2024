@@ -221,5 +221,7 @@ df = cast_and_fill(df, float_cols=['col1', 'col2'], str_cols=['col3'])
 # Display updated DataFrame
 print(df)
 
+=IF(A1<0, "($"&TEXT(ABS(A1), "0.00")&")", "$"&TEXT(A1, "0.00"))
+
 
 
