@@ -1,9 +1,9 @@
-
-Column	Formula	Description
-N (Account)	=INDEX($A$2:$A$1000, INT((ROW(A2)-2)/5)+1)	Expands Account dynamically
-O (Desk)	=INDEX($B$2:$B$1000, INT((ROW(A2)-2)/5)+1)	Expands Desk dynamically
-P (SBH)	=INDEX($C$2:$C$1000, INT((ROW(A2)-2)/5)+1)	Expands SBH dynamically
-Q (Value Type)	=CHOOSE(MOD(ROW(A2)-2,5)+1, "Value A", "Value B", "Value C", "Value D", "Value E")	Cycles through Value Types
-R (Actual Value)	=IFERROR(INDEX($D$2:$H$1000, MATCH(N2 & O2 & P2, $A$2:$A$1000 & $B$2:$B$1000 & $C$2:$C$1000, 0), MATCH(Q2, $D$1:$H$1, 0)), "")	Fetches the correct Actual Value
-S (Entity)	=INDEX($I$2:$I$1000, INT((ROW(A2)-2)/5)+1)	Expands Entity dynamically
-T (SCRP)	=INDEX($J$2:$J$1000, INT((ROW(A2)-2)/5)+1)	Expands SCRP dynamically
+=IF(AND(A2="NA", B2="NA", C2="NA"), 0,
+   IF(AND(A2="NA", B2="NA"), C2,
+   IF(AND(A2="NA", C2="NA"), B2,
+   IF(AND(B2="NA", C2="NA"), A2,
+   IF(AND(A2="NA"), MAX(B2, C2),
+   IF(AND(B2="NA"), MAX(A2, C2),
+   IF(AND(C2="NA"), MAX(A2, B2),
+   IF(OR(AND(A2=B2, A2<>C2), AND(A2=C2, A2<>B2), AND(B2=C2, B2<>A2)), MAX(A2, B2, C2),
+   LARGE({A2, B2, C2}, 2))))))))))
