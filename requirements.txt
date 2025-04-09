@@ -1,70 +1,52 @@
 import pandas as pd
-import itertools
 
-# List of countries, credit ratings, and levels
-countries = ['Country A', 'Country B']
-ratings = ['Fitch', 'Moody', 'S&P']
-levels = [1, 2, 3, 4, 5, 6]
-
-# Generate all combinations for one country (Fitch, Moody, and S&P)
-combinations = list(itertools.product(levels, repeat=3))  # Levels for Fitch, Moody, and S&P
-
-# Initialize lists to hold the data
-country_a_data = []
-country_b_data = []
-
-# For each combination of credit rating levels (1-6 for Fitch, Moody, S&P)
-for combo in combinations:
-    country_a_data.append(combo)  # Country A ratings
-    country_b_data.append(combo)  # Country B ratings
-
-# Convert the data into DataFrames
+# Example comments in a DataFrame
 df = pd.DataFrame({
-    'Country A - Fitch': [x[0] for x in country_a_data],
-    'Country A - Moody': [x[1] for x in country_a_data],
-    'Country A - S&P': [x[2] for x in country_a_data],
-    'Country B - Fitch': [x[0] for x in country_b_data],
-    'Country B - Moody': [x[1] for x in country_b_data],
-    'Country B - S&P': [x[2] for x in country_b_data]
+    'comment': [
+        "This is a good product.",
+        "Something is wrong here.",
+        "Looks true to me.",
+        "Absolutely false statement.",
+        "All correct!",
+        "Not bad at all.",
+        "Not good enough.",
+        "Neutral comment."
+    ]
 })
 
-# Export the DataFrame to an Excel file
-df.to_excel("credit_ratings_combinations.xlsx", index=False)
-
-print("Excel file created successfully!")
-
-import pandas as pd
-
-# Example comments
-comments = pd.Series([
-    "This is a good product.",
-    "Something is wrong here.",
-    "Looks true to me.",
-    "Absolutely false statement.",
-    "All correct!",
-    "Not bad at all.",
-    "Neutral comment."
-])
-
-# Define keywords
+# Define regex patterns
 positive_keywords = r'\b(good|correct|true)\b'
 negative_keywords = r'\b(bad|wrong|false)\b'
 
-# Apply flags
+# Define special negation patterns
+negation_to_positive = ['not bad', 'not wrong', 'not false']
+negation_to_negative = ['not good', 'not correct', 'not true']
+
+# Apply flags function
 def flag_comment(comment):
     if pd.isna(comment):
         return "neutral"
-    comment = comment.lower()
-    if pd.Series(comment).str.contains(negative_keywords, regex=True).any():
+    
+    comment_lower = comment.lower()
+
+    # Handle negations first
+    for phrase in negation_to_positive:
+        if phrase in comment_lower:
+            return "positive"
+    for phrase in negation_to_negative:
+        if phrase in comment_lower:
+            return "negative"
+
+    # Regex match for positive or negative keywords
+    if pd.Series(comment_lower).str.contains(negative_keywords, regex=True).any():
         return "negative"
-    elif pd.Series(comment).str.contains(positive_keywords, regex=True).any():
+    elif pd.Series(comment_lower).str.contains(positive_keywords, regex=True).any():
         return "positive"
     else:
         return "neutral"
 
-# Apply to the Series
-flags = comments.apply(flag_comment)
+# Apply to the DataFrame
+df['sentiment'] = df['comment'].apply(flag_comment)
 
-# Combine results
-result = pd.DataFrame({'comment': comments, 'sentiment': flags})
-print(result)
+# Print the result
+print(df)
