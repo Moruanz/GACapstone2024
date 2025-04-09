@@ -32,3 +32,39 @@ df = pd.DataFrame({
 df.to_excel("credit_ratings_combinations.xlsx", index=False)
 
 print("Excel file created successfully!")
+
+import pandas as pd
+
+# Example comments
+comments = pd.Series([
+    "This is a good product.",
+    "Something is wrong here.",
+    "Looks true to me.",
+    "Absolutely false statement.",
+    "All correct!",
+    "Not bad at all.",
+    "Neutral comment."
+])
+
+# Define keywords
+positive_keywords = r'\b(good|correct|true)\b'
+negative_keywords = r'\b(bad|wrong|false)\b'
+
+# Apply flags
+def flag_comment(comment):
+    if pd.isna(comment):
+        return "neutral"
+    comment = comment.lower()
+    if pd.Series(comment).str.contains(negative_keywords, regex=True).any():
+        return "negative"
+    elif pd.Series(comment).str.contains(positive_keywords, regex=True).any():
+        return "positive"
+    else:
+        return "neutral"
+
+# Apply to the Series
+flags = comments.apply(flag_comment)
+
+# Combine results
+result = pd.DataFrame({'comment': comments, 'sentiment': flags})
+print(result)
