@@ -1,52 +1,30 @@
-import pandas as pd
+# Create Excel COM object
+$excel = New-Object -ComObject Excel.Application
 
-# Example comments in a DataFrame
-df = pd.DataFrame({
-    'comment': [
-        "This is a good product.",
-        "Something is wrong here.",
-        "Looks true to me.",
-        "Absolutely false statement.",
-        "All correct!",
-        "Not bad at all.",
-        "Not good enough.",
-        "Neutral comment."
-    ]
-})
+# Optional: Make Excel visible (useful for debugging)
+$excel.Visible = $true
 
-# Define regex patterns
-positive_keywords = r'\b(good|correct|true)\b'
-negative_keywords = r'\b(bad|wrong|false)\b'
+# Define path to the Excel file
+$filePath = "C:\Path\To\Your\File.xlsx"
 
-# Define special negation patterns
-negation_to_positive = ['not bad', 'not wrong', 'not false']
-negation_to_negative = ['not good', 'not correct', 'not true']
+# Open the workbook
+$workbook = $excel.Workbooks.Open($filePath)
 
-# Apply flags function
-def flag_comment(comment):
-    if pd.isna(comment):
-        return "neutral"
-    
-    comment_lower = comment.lower()
+# Optional: Do something with the workbook, like modifying a cell
+# $sheet = $workbook.Sheets.Item(1)
+# $sheet.Cells.Item(1, 1).Value2 = "Edited via PowerShell"
 
-    # Handle negations first
-    for phrase in negation_to_positive:
-        if phrase in comment_lower:
-            return "positive"
-    for phrase in negation_to_negative:
-        if phrase in comment_lower:
-            return "negative"
+# Save the workbook
+$workbook.Save()
 
-    # Regex match for positive or negative keywords
-    if pd.Series(comment_lower).str.contains(negative_keywords, regex=True).any():
-        return "negative"
-    elif pd.Series(comment_lower).str.contains(positive_keywords, regex=True).any():
-        return "positive"
-    else:
-        return "neutral"
+# Close the workbook
+$workbook.Close($false)  # $false = don't prompt to save again
 
-# Apply to the DataFrame
-df['sentiment'] = df['comment'].apply(flag_comment)
+# Quit Excel
+$excel.Quit()
 
-# Print the result
-print(df)
+# Release the COM objects
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook) | Out-Null
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
+[GC]::Collect()
+[GC]::WaitForPendingFinalizers()
