@@ -1,30 +1,15 @@
-# Create Excel COM object
-$excel = New-Object -ComObject Excel.Application
+Here's a more polished and professional version of your statement:
 
-# Optional: Make Excel visible (useful for debugging)
-$excel.Visible = $true
 
-# Define path to the Excel file
-$filePath = "C:\Path\To\Your\File.xlsx"
+---
 
-# Open the workbook
-$workbook = $excel.Workbooks.Open($filePath)
+Thank you for your question.
 
-# Optional: Do something with the workbook, like modifying a cell
-# $sheet = $workbook.Sheets.Item(1)
-# $sheet.Cells.Item(1, 1).Value2 = "Edited via PowerShell"
+If you are referring to any official records or documents, to the best of my knowledge, there are none, as neither party has policies that explicitly prohibit external engagements or require prior approval for moonlighting.
 
-# Save the workbook
-$workbook.Save()
+However, in casual conversations, I have been transparent with both parties and have mentioned that I was working two jobs that do not pose any conflict of interest, primarily to support my financial needs.
 
-# Close the workbook
-$workbook.Close($false)  # $false = don't prompt to save again
 
-# Quit Excel
-$excel.Quit()
+---
 
-# Release the COM objects
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($workbook) | Out-Null
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
-[GC]::Collect()
-[GC]::WaitForPendingFinalizers()
+Let me know if you want this to sound more formal/legal or more conversational depending on the context (e.g., HR, legal, or casual clarification).
